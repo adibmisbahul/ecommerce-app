@@ -1,10 +1,12 @@
 import express from "express";
+
 const router = express.Router();
 
-router.get("/test", async (req, res) => {
-  res.status(200).json({
-    message: "testing",
+router.get("/test", (req, res) => {
+  const request = req;
+  console.log(request);
+  res.json({
+    data: request,
   });
 });
-
 export default router;

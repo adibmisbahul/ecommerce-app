@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000")
+      .get("http://localhost:3000/api/product")
       .then((response) => {
         setData(response.data.data);
       })

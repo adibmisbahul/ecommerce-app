@@ -1,8 +1,12 @@
 import express from "express";
 import db from "../config/conect.js";
+import multer from "multer";
+import path from "path";
+import { isAdmin } from "../middleware/admin.js";
+import { auth } from "../middleware/jwt.js";
 const router = express.Router();
 
-router.get("/product", async (req, res) => {
+router.get("/product", auth, isAdmin, async (req, res) => {
   const getAllProduct = await db.many("select * from products");
   console.log(getAllProduct);
   res.status(200).json({
@@ -11,14 +15,37 @@ router.get("/product", async (req, res) => {
   });
 });
 
-router.post("/product", async (req, res) => {
-  const { title, price, image, description } = req.body;
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(process.cwd(), "public", "product"));
+  },
+  filename: function (req, file, cb) {
+    const title = req.body.title;
+    const ext = path.extname(file.originalname);
+    const safeTitle = title.toLowerCase().replace(/[^a-z0-9]/g, "-");
+    cb(null, `${safeTitle}${ext}`);
+  },
+  fileFilter: function (req, file, cb) {
+    cb(null);
+  },
+});
 
-  if (price === Number) {
-    res.status(400).json({
-      message: "type price importan number",
-    });
-  }
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) {
+      return cb(new Error("File harus gambar"), false);
+    }
+    cb(null, true);
+  },
+});
+
+router.post("/product", upload.single("image"), async (req, res) => {
+  const { title, price, description } = req.body;
+  const image = `${req.protocol}://${req.host}/public/product/${req.file.filename}`;
+
+  console.log(req.body);
+  console.log(req.file.filename);
 
   if (!title || !price || !image || !description) {
     return res.status(400).json({
