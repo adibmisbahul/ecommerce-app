@@ -5,6 +5,7 @@ import axios from "axios";
 export default function Login() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [error, setError] = useState(false);
 
   function handleLogin() {
     axios
@@ -16,9 +17,10 @@ export default function Login() {
         },
         { withCredentials: true },
       )
-      .then((res) => console.log(res.data))
+      .then((res) => console.log(res.data),  setError(false))
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
   }
   return (
@@ -41,6 +43,11 @@ export default function Login() {
         <button onClick={handleLogin} className="bg-blue-500 p-3 rounded-lg">
           Login
         </button>
+        {error && (
+          <div>
+            <h1 className="text-red-600">error</h1>
+          </div>
+        )}
       </div>
     </div>
   );
