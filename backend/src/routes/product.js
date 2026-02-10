@@ -2,13 +2,17 @@ import express from "express";
 import db from "../config/conect.js";
 import multer from "multer";
 import path from "path";
-import { isAdmin } from "../middleware/admin.js";
 import { auth } from "../middleware/jwt.js";
+import jsonwebtoken from "jsonwebtoken";
+
 const router = express.Router();
 
-router.get("/product", auth, isAdmin, async (req, res) => {
+router.get("/product", auth, async (req, res) => {
   const getAllProduct = await db.many("select * from products");
-  console.log(getAllProduct);
+  const reqToken = req.cookies.token;
+  const decod = jsonwebtoken.verify(reqToken, process.env.JWT_SECRET);
+  console.log(reqToken);
+  console.log("decod -> ", decod);
   res.status(200).json({
     massage: "succees",
     data: getAllProduct,
