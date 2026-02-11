@@ -7,12 +7,8 @@ import jsonwebtoken from "jsonwebtoken";
 
 const router = express.Router();
 
-router.get("/product", auth, async (req, res) => {
+router.get("/product", async (req, res) => {
   const getAllProduct = await db.many("select * from products");
-  const reqToken = req.cookies.token;
-  const decod = jsonwebtoken.verify(reqToken, process.env.JWT_SECRET);
-  console.log(reqToken);
-  console.log("decod -> ", decod);
   res.status(200).json({
     massage: "succees",
     data: getAllProduct,

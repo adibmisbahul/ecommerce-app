@@ -4,22 +4,28 @@ import BrandIcon from "../components/BrandIcon";
 import CardProduct from "../components/CardProduct";
 import { FaBoltLightning, FaRegClock, FaTruck } from "react-icons/fa6";
 import { IoCart } from "react-icons/io5";
-import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import userService from "../services/userService";
+import axios from "axios";
 
 export default function Dashboard() {
   const [data, setData] = useState([]);
   const [cart, setCart] = useState([]);
-  
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/product")
-      .then((response) => {
-        setData(response.data.data);
-      })
-      .catch((error) => console.log(error));
+    async function response() {
+      try {
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "/product",
+        );
+        const data = response.data.data;
+        setData(data);
+      } catch (error) {
+        console.log("canot get product data", error);
+      }
+    }
+    response();
   }, []);
 
   const addToCart = (newItem) => {

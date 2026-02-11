@@ -1,6 +1,9 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { useState } from "react";
+import CardProduct from "../components/CardProduct";
 export default function ProductSetings() {
+  const [dataProduct, setDataProduct] = useState();
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
@@ -18,6 +21,23 @@ export default function ProductSetings() {
       headers: { "Content-Type": "multipart/form-data" },
     });
   }
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "/product ",
+        );
+        setDataProduct(response.data.data);
+      } catch (error) {
+        console.log("canot get data", error);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  console.log(dataProduct);
   return (
     <div className="flex flex-col">
       <div className=""></div>
@@ -40,6 +60,11 @@ export default function ProductSetings() {
       <button className="p-3 bg-blue-600 rounded-xl" onClick={addNewProduct}>
         add new product
       </button>
+      <div className="flex flex-wrap">
+        {dataProduct.map((item, index) => {
+          return <CardProduct title={item.title} image={item.image} />;
+        })}
+      </div>
     </div>
   );
 }

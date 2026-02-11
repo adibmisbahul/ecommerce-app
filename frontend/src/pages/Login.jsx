@@ -17,7 +17,7 @@ export default function Login() {
         },
         { withCredentials: true },
       )
-      .then((res) => console.log(res.data),  setError(false))
+      .then((res) => console.log(res.data), setError(false))
       .catch((error) => {
         console.log(error);
         setError(true);
@@ -45,7 +45,7 @@ export default function Login() {
         </button>
         {error && (
           <div>
-            <h1 className="text-red-600">error</h1>
+            <h1 className="text-red-600">invalid username or password</h1>
           </div>
         )}
       </div>
