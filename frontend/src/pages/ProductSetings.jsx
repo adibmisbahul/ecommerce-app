@@ -26,18 +26,33 @@ export default function ProductSetings() {
     const loadData = async () => {
       try {
         const response = await axios.get(
-          import.meta.env.VITE_API_URL + "/product ",
+          import.meta.env.VITE_API_URL + "/product",
         );
         setDataProduct(response.data.data);
-      } catch (error) {
-        console.log("canot get data", error);
-      }
+      } catch (error) {}
     };
 
     loadData();
   }, []);
 
-  console.log(dataProduct);
+  const handleDelete = async (item) => {
+    try {
+      const title = item.title;
+      const response = await axios.delete(
+        import.meta.env.VITE_API_URL + "/product",
+        {
+          data: {
+            title: title,
+          },
+        },
+      );
+      setDataProduct((prev) => prev.filter((p) => p.id !== item.id));
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <div className=""></div>
@@ -61,9 +76,27 @@ export default function ProductSetings() {
         add new product
       </button>
       <div className="flex flex-wrap">
-        {dataProduct.map((item, index) => {
-          return <CardProduct title={item.title} image={item.image} />;
-        })}
+        {dataProduct ? (
+          <>
+            {console.log("already data")}
+            {dataProduct.map((item, index) => {
+              return (
+                <CardProduct
+                  key={index}
+                  title={item.title}
+                  image={item.image}
+                  buttonTittle={"delete"}
+                  onClick={() => handleDelete(item)}
+                />
+              );
+            })}
+          </>
+        ) : (
+          <>
+            {console.log("kosong")}
+            <p>loading</p>
+          </>
+        )}
       </div>
     </div>
   );

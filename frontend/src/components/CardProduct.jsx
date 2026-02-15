@@ -2,7 +2,7 @@ import { FaStar } from "react-icons/fa";
 import { IoCart } from "react-icons/io5";
 
 export default function CardProduct(props) {
-  const { image, title, price, onClick } = props;
+  const { image, title, price, onClick, buttonTittle } = props;
   return (
     <div className="text-zinc-800 rounded-xl shadow-zinc-300  shadow flex flex-col items-start  gap-2 w-45 ">
       <img
@@ -22,7 +22,7 @@ export default function CardProduct(props) {
           ${price}
         </h2>
         <button className="bg-red-600 px-3 py-2 rounded-md" onClick={onClick}>
-          <IoCart color="white" size={25} />
+          {buttonTittle}
         </button>
       </div>
     </div>

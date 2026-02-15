@@ -71,13 +71,13 @@ router.patch("/product/:id", async (req, res) => {
     " UPDATE products SET title = COALESCE($1, title), price = COALESCE($2, price),description = COALESCE($3, description), image = COALESCE($4, image) WHERE id = $5",
     [title, price, description, image, id],
   );
-
   res.json({ message: "Product updated", data: updateProduct });
 });
 
 router.delete("/product", async (req, res) => {
   const { title } = req.body;
-  const deleteProduct = await db.one(
+  console.log(title);
+  const deleteProduct = await db.any(
     "delete from products where title=$1 returning title , price , description",
     [title],
   );

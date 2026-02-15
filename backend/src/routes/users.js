@@ -3,6 +3,7 @@ import jsonwebtoken from "jsonwebtoken";
 import models from "../models/users.js";
 import db from "../config/conect.js";
 import bcrypt from "bcrypt";
+import controller from "../controller/users.js";
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
@@ -29,6 +30,7 @@ router.post("/login", async (req, res) => {
     phone_number: user.phone_number,
     email: user.email,
     location: user.location,
+    role: user.role,
   };
 
   const privateKey = process.env.JWT_SECRET;

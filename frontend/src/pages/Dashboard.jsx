@@ -12,6 +12,7 @@ import axios from "axios";
 export default function Dashboard() {
   const [data, setData] = useState([]);
   const [cart, setCart] = useState([]);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     async function response() {
@@ -29,8 +30,12 @@ export default function Dashboard() {
   }, []);
 
   const addToCart = (newItem) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setModal(true);
+      return;
+    }
     setCart((prev) => {
-      console.log(newItem);
       const exits = prev.find((value) => value.id === newItem.id);
       if (exits) {
         prev.map((prevCart) =>
@@ -93,6 +98,17 @@ export default function Dashboard() {
               />
             );
           })}
+          {modal && (
+            <div className="absolute bg-zinc-100 w-3/4 h-32 rounded-xl content-center top-1/3">
+              <p
+                className="text-zinc-900 cursor-pointer"
+                onClick={() => setModal(false)}
+              >
+                x
+              </p>
+              <p className="text-red-500">login terlebih dahulu</p>
+            </div>
+          )}
         </div>
       </div>
     </Layout>

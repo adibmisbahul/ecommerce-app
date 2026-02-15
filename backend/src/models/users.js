@@ -6,4 +6,18 @@ const queryLogin = async (username, password) => {
   );
 };
 
-export default { queryLogin };
+const userRegister = async (username, password, email, phone_number) => {
+  return await db.oneOrNone(
+    "insert into users (username, password , email , phone_number) values ($1, $2,$3,$4)",
+    [username, password, email, phone_number],
+  );
+};
+
+const alreadyUser = async (username, email, phone_number) => {
+  return await db.oneOrNone(
+    " select * from users where username = $1 or email = $2 or phone_number = $3",
+    [username, email, phone_number],
+  );
+};
+
+export default { queryLogin, userRegister, alreadyUser };

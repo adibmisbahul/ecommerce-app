@@ -6,6 +6,7 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProductSetings from "./pages/ProductSetings";
+import ProtectedAuth from "./components/ProtecAuth";
 
 function App() {
   return (
