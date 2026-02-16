@@ -1,5 +1,5 @@
 import db from "../config/conect.js";
-const queryLogin = async (username, password) => {
+const userLogin = async (username, password) => {
   return await db.oneOrNone(
     `select * from users where username =$1 and password = $2`,
     [username, password],
@@ -7,8 +7,8 @@ const queryLogin = async (username, password) => {
 };
 
 const userRegister = async (username, password, email, phone_number) => {
-  return await db.oneOrNone(
-    "insert into users (username, password , email , phone_number) values ($1, $2,$3,$4)",
+  return await db.one(
+    "insert into users (username, password , email , phone_number) values ($1, $2,$3,$4) returning id, username , email , phone_number",
     [username, password, email, phone_number],
   );
 };
@@ -20,4 +20,4 @@ const alreadyUser = async (username, email, phone_number) => {
   );
 };
 
-export default { queryLogin, userRegister, alreadyUser };
+export default { userLogin, userRegister, alreadyUser };
