@@ -29,23 +29,20 @@ export default function Dashboard() {
     response();
   }, []);
 
+
   const addToCart = (newItem) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setModal(true);
-      return;
-    }
+    // const token = localStorage.getItem("token");
+    // if (!token) {
+    //   setModal(true);
+    //   return;
+    // }
     setCart((prev) => {
-      const exits = prev.find((value) => value.id === newItem.id);
-      if (exits) {
-        prev.map((prevCart) =>
-          prevCart.id === newItem.id
-            ? { ...prevCart, qty: prevCart.qty + 1 }
-            : prevCart,
-        );
+      const exist = prev.find((value) => value.product_id === newItem.product_id)
+      if(exist){
+        prev.map((prevChart) => {})
       }
-      return [...prev, { ...newItem, qty: 1 }];
-    });
+      return [...prev, {...newItem , qty:1}]
+    })
   };
 
   console.log("cart -> ", cart);
@@ -91,7 +88,7 @@ export default function Dashboard() {
             return (
               <CardProduct
                 key={index}
-                image={item.image}
+                image={item.image_path}
                 title={item.title}
                 price={item.price}
                 onClick={() => addToCart(item)}

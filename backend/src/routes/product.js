@@ -54,7 +54,7 @@ router.post("/product", upload.single("image"), async (req, res) => {
   }
 
   const addNewProduct = await db.any(
-    "insert into products (title, price, description , image) values ($1, $2 , $3 , $4) returning id",
+    "insert into products (title, price, description , image_path) values ($1, $2 , $3 , $4) returning product_id ",
     [title, price, description, image],
   );
 

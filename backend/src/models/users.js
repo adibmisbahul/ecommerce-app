@@ -8,7 +8,7 @@ const userLogin = async (username, password) => {
 
 const userRegister = async (username, password, email, phone_number) => {
   return await db.one(
-    "insert into users (username, password , email , phone_number) values ($1, $2,$3,$4) returning id, username , email , phone_number",
+    "insert into users (username, password , email , phone_number) values ($1, $2,$3,$4) returning user_id, username , email , phone_number",
     [username, password, email, phone_number],
   );
 };

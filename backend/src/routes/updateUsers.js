@@ -6,7 +6,7 @@ router.patch("/updateuser/:id", async (req, res) => {
   const { password } = req.body;
   const { id } = req.params;
 
-  const exist = await db.any("select * from users where id =$1", [id]);
+  const exist = await db.any("select * from users where user_id =$1", [id]);
 
   if (!exist) {
     return res.status(401).json({
@@ -15,7 +15,7 @@ router.patch("/updateuser/:id", async (req, res) => {
   }
 
   const updateUser = await db.oneOrNone(
-    "update users set password = $1 where id = $2 returning id",
+    "update users set password = $1 where id = $2 returning user_id",
     [password, id],
   );
   if (!updateUser) {

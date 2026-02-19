@@ -75,6 +75,7 @@ const userRegister = async (req, res) => {
 
     if (user) {
       res.status(201).json({ message: "register succees" });
+      console.log("registe succees")
     } else {
       res.status(401).json({ message: "failed to register " });
     }

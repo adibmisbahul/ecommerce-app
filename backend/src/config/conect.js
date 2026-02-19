@@ -1,7 +1,7 @@
 import pgPromise from "pg-promise";
 const pgp = pgPromise();
 
-const db = pgp("postgres://postgres:adib123@localhost:5432/ecomerce");
+const db = pgp("postgres://postgres:adib101812@localhost:5432/ecomerce");
 
 db.connect()
   .then((obj) => {
